@@ -4,8 +4,8 @@ from time import perf_counter
 from threading import Thread
 from map import create_map, update_rover_path, create_rover_path, mine_check
 
-MAP_ROW_SIZE = 20
-MAP_COL_SIZE = 20
+MAP_ROW_SIZE = 7
+MAP_COL_SIZE = 7
 
 
 def main():
@@ -52,28 +52,28 @@ def generate_rover_paths():
 
 
 def generate_rover_path(rover_id):
-    rover_data = get_rover_commands(rover_id)
-    prev_move = ''
+    rover_commands = get_rover_commands(rover_id)
+    prev_move = rover_commands[0]  # Initializing move
     curr_row = 1
     curr_col = 0
     create_rover_path(rover_id, MAP_ROW_SIZE, MAP_COL_SIZE)
-    update_rover_path(rover_id, 1, 0)  # Initializing path
-    for move in rover_data['data']['moves']:
+    update_rover_path(rover_id, curr_row, curr_col)  # Initializing path
+    for move in rover_commands:
         if prev_move != 'D' and mine_check(curr_row, curr_col):
             # print(f'Rover {rover_id} exploded at ({curr_row}, {curr_col})')
             break
 
-        if move == 'L':
+        if move == 'M':
+            if curr_row < MAP_ROW_SIZE:
+                curr_row += 1
+
+        elif move == 'L':
             if curr_col != 0:
-                curr_col -= 1
+                curr_col -= 2
 
         elif move == 'R':
-            if curr_col != (MAP_COL_SIZE - 1):
-                curr_col += 1
-
-        elif move == 'M':
-            if curr_row != (MAP_ROW_SIZE - 1):
-                curr_row += 1
+            if curr_col < ((MAP_COL_SIZE - 1) * 2):
+                curr_col += 2
 
         update_rover_path(rover_id, curr_row, curr_col)
         prev_move = move
@@ -89,7 +89,7 @@ def get_rover_commands(rover_id):
     r = requests.get(f'{api}/{rover_id}')
     if r.ok:
         content = json.loads(r.content)
-        return content
+        return content['data']['moves']
     else:
         raise Exception("Failed to fetch api")
 

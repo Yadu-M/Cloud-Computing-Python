@@ -20,9 +20,10 @@ def create_map(row, col):
                     f.write('1')
                 else:
                     f.write('0')
-            if i == (row - 1):  # This removes extra line in the map
-                break
-            f.write('\n')
+                if j < (col - 1):
+                    f.write(' ')
+            if i < (row - 1):  # This removes extra line in the map
+                f.write('\n')
 
 
 def update_rover_path(rover_id, row, col):
@@ -40,7 +41,6 @@ def update_rover_path(rover_id, row, col):
     rover_path.seek(col, 1)  # Align file pointer to correct col
     rover_path.write(bytes('*', 'utf-8'))  # Marking rover path
     rover_path.close()
-    return True
 
 
 def mine_check(row, col):
@@ -58,8 +58,8 @@ def mine_check(row, col):
     rover_map.seek(col, 1)
 
     if rover_map.read(1).decode('utf-8') == '1':  # Checking for mine
-        rover_map.seek(-1, 1)  # Move the pointer 1 back to reset
-        rover_map.write(bytes('X', 'utf-8'))  # Mark mine as X (for now)
+        # rover_map.seek(-1, 1)  # Move the pointer 1 back to reset
+        # rover_map.write(bytes('X', 'utf-8'))  # Mark mine as X (for now)
         rover_map.close()
         return True
 
@@ -80,6 +80,7 @@ def create_rover_path(rover_id, rows, cols):
         for i in range(rows):
             for j in range(cols):
                 f.write('0')
-            if i == (rows - 1):  # This removes extra line in the map
-                break
-            f.write('\n')
+                if j < (cols - 1):
+                    f.write(' ')
+            if i < (rows - 1):  # This removes extra line in the map
+                f.write('\n')
