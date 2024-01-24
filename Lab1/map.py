@@ -28,7 +28,7 @@ def create_map(row, col):
 
 def update_rover_path(rover_id, row, col):
     """
-    Updates the rover path given the row and col
+    Updates the rover path given the row and col    
     :param rover_id: Rover id
     :param row: Row to update
     :param col: Col to update
