@@ -4,8 +4,10 @@ from time import perf_counter
 from threading import Thread
 from map import create_map, update_rover_path, create_rover_path, mine_check
 
-MAP_ROW_SIZE = 7
-MAP_COL_SIZE = 7
+MAP_ROW_SIZE = 15
+MAP_COL_SIZE = 15
+
+# directions = ["N", "W", "E", "S"]
 
 
 def main():
@@ -56,26 +58,38 @@ def generate_rover_path(rover_id):
     prev_move = rover_commands[0]  # Initializing move
     curr_row = 1
     curr_col = 0
+    direction_v = "SOUTH"
     create_rover_path(rover_id, MAP_ROW_SIZE, MAP_COL_SIZE)
     update_rover_path(rover_id, curr_row, curr_col)  # Initializing path
     for move in rover_commands:
-        if prev_move != 'D' and mine_check(curr_row, curr_col):
-            # print(f'Rover {rover_id} exploded at ({curr_row}, {curr_col})')
-            break
+        if move == 'L' or move == 'R':
+            direction_v = update_direction(direction_v, move)
 
-        if move == 'M':
-            if curr_row < MAP_ROW_SIZE:
-                curr_row += 1
+        elif move == 'M':
+            if prev_move != 'D' and mine_check(curr_row, curr_col):
+                # print(f'Rover {rover_id} exploded at ({curr_row}, {curr_col})')
+                break
+            update = False
+            if direction_v == "NORTH":
+                if curr_row > 1:  # Upper border
+                    curr_row -= 1
+                    update = True
+            elif direction_v == "EAST":
+                if curr_col < ((MAP_COL_SIZE - 1) * 2):
+                    curr_col += 2
+                    update = True
+            elif direction_v == "SOUTH":
+                if curr_row < MAP_ROW_SIZE:
+                    curr_row += 1
+                    update = True
+            elif direction_v == "WEST":
+                if curr_col >= 2:
+                    curr_col -= 2
+                    update = True
 
-        elif move == 'L':
-            if curr_col != 0:
-                curr_col -= 2
+            if update:
+                update_rover_path(rover_id, curr_row, curr_col)
 
-        elif move == 'R':
-            if curr_col < ((MAP_COL_SIZE - 1) * 2):
-                curr_col += 2
-
-        update_rover_path(rover_id, curr_row, curr_col)
         prev_move = move
 
 
@@ -92,6 +106,33 @@ def get_rover_commands(rover_id):
         return content['data']['moves']
     else:
         raise Exception("Failed to fetch api")
+
+
+def update_direction(curr_direction, move) -> "":
+
+    if curr_direction == "NORTH":
+        if move == "L":
+            return "WEST"
+        elif move == "R":
+            return "EAST"
+
+    elif curr_direction == "WEST":
+        if move == "L":
+            return "SOUTH"
+        elif move == "R":
+            return "NORTH"
+
+    if curr_direction == "SOUTH":
+        if move == "L":
+            return "EAST"
+        elif move == "R":
+            return "WEST"
+
+    if curr_direction == "EAST":
+        if move == "L":
+            return "NORTH"
+        elif move == "R":
+            return "SOUTH"
 
 
 if __name__ == "__main__":

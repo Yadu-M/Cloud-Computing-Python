@@ -36,7 +36,7 @@ def update_rover_path(rover_id, row, col):
     """
     rover_path = open(f'path_{rover_id}.txt', 'rb+')
     for i in range(row):  # Align file pointer to correct row
-        rover_path.readline()
+        next(rover_path)
 
     rover_path.seek(col, 1)  # Align file pointer to correct col
     rover_path.write(bytes('*', 'utf-8'))  # Marking rover path
@@ -53,7 +53,7 @@ def mine_check(row, col):
     rover_map = open('map.txt', 'rb+')
 
     for i in range(row):
-        rover_map.readline()
+        next(rover_map)
 
     rover_map.seek(col, 1)
 
