@@ -43,14 +43,20 @@ def update_rover_path(rover_id, row, col):
     rover_path.close()
 
 
-def mine_check(row, col):
+def mine_check(row, col, rover_id=None, disable=False):
     """
     Checks if mine exists map for the given row, col
+    :param disable:
+    :param rover_id:
     :param row: Row in the map
     :param col: Col in the map
     :return:
     """
-    rover_map = open('map.txt', 'rb+')
+
+    if rover_id is None:
+        rover_map = open(f'map.txt', 'rb+')
+    else:
+        rover_map = open(f'map_{rover_id}.txt', 'rb+')
 
     for i in range(row):
         next(rover_map)
@@ -58,8 +64,9 @@ def mine_check(row, col):
     rover_map.seek(col, 1)
 
     if rover_map.read(1).decode('utf-8') == '1':  # Checking for mine
-        # rover_map.seek(-1, 1)  # Move the pointer 1 back to reset
-        # rover_map.write(bytes('X', 'utf-8'))  # Mark mine as X (for now)
+        if disable:
+            rover_map.seek(-1, 1)  # Move the pointer 1 back to reset
+            rover_map.write(bytes('X', 'utf-8'))  # Mark mine as X (for now)
         rover_map.close()
         return True
 
@@ -84,3 +91,16 @@ def create_rover_path(rover_id, rows, cols):
                     f.write(' ')
             if i < (rows - 1):  # This removes extra line in the map
                 f.write('\n')
+
+
+def fetch_map_size(map_file_name) -> ():
+    fmap = open(map_file_name, 'r')
+    size = fmap.readline().split()
+    fmap.close()
+    return int(size[0]), int(size[1])
+
+
+def generate_maps(rover_id, rows):
+    with open(f'map_{rover_id}.txt', 'w') as f, open('map.txt', 'r') as m:
+        for i in range(rows + 1):
+            f.write(m.readline())
