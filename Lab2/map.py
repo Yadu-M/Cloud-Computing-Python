@@ -1,32 +1,79 @@
 import random
 
-'''
-Utility functions for edition text files
-'''
+def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:
+    
+    if noChange:
+        # return [
+        #     [1, 1, 1, 0, 1], 
+        #     [1, 1, 1, 0, 1], 
+        #     [0, 1, 1, 1, 1], 
+        #     [0, 1, 1, 0, 0], 
+        #     [1, 1, 0, 1, 0] 
+        # ]
+        return [
+            [0, 1, 0],
+            [0, 0, 1],
+            [1, 1, 1]
+        ]
+    
+    if row == None:
+        row = random.randint(3, 10)
+    if col == None:
+        col = random.randint(3, 10)
 
 
-def create_map(row, col):
-    """
-    Creates a random map based on the row and col
-    :param row: Row size of map
-    :param col: Col size of map
-    :return:
-    """
-    with open('map.txt', 'w') as f:
-        f.write(f'{row} {col}\n')
-        for i in range(row):
-            for j in range(col):
-                if random.randint(1, 10) < 3:
-                    f.write('1')
-                else:
-                    f.write('0')
-                if j < (col - 1):
-                    f.write(' ')
-            if i < (row - 1):  # This removes extra line in the map
+    grid = []
+    
+    for i in range(row):
+        curr_row = []
+        for _ in range(col):            
+            if random.randint(1, 10) < 3:
+                curr_row.append(1)
+            else:
+                curr_row.append(0)
+        grid.append(curr_row)
+    
+    
+    return grid
+    
+
+def create_maps(grid: list[list[int]]):
+    
+    with open(f'map.txt', 'w') as f:
+            f.write(f'{len(grid)} {len(grid[0])}\n')
+            i = 0
+            j = 0
+            for row in grid:
+                i += 1
+                for col in row:
+                    f.write(str (col))
+                    j += 1
+                    if (j < len(row)):
+                        f.write(' ')
+                if (i == len(grid)):
+                    break
                 f.write('\n')
+                j = 0
+                
+    for i in range(1, 11):        
+        with open(f'map_{i}.txt', 'w') as f:
+            f.write(f'{len(grid)} {len(grid[0])}\n')
+            i = 0
+            j = 0
+            for row in grid:
+                i += 1
+                for col in row:
+                    f.write(str (col))
+                    j += 1
+                    if (j < len(row)):
+                        f.write(' ')
+                if (i == len(grid)):
+                    break
+                f.write('\n')
+                j = 0
+ 
 
-
-def update_rover_path(rover_id, row, col):
+def update_rover_path(rover_id: int, row: int, col: int) -> None:
     """
     Updates the rover path given the row and col    
     :param rover_id: Rover id
@@ -34,7 +81,7 @@ def update_rover_path(rover_id, row, col):
     :param col: Col to update
     :return:
     """
-    rover_path = open(f'path_{rover_id}.txt', 'rb+')
+    rover_path = open(f'rover_{rover_id}.txt', 'rb+')
     for i in range(row):  # Align file pointer to correct row
         next(rover_path)
 
@@ -82,7 +129,7 @@ def create_rover_path(rover_id, rows, cols):
     :param cols: Total number of cols
     :return:
     """
-    with open(f'path_{rover_id}.txt', 'w') as f:
+    with open(f'rover_{rover_id}.txt', 'w') as f:
         f.write('\n')
         for i in range(rows):
             for j in range(cols):
@@ -93,14 +140,3 @@ def create_rover_path(rover_id, rows, cols):
                 f.write('\n')
 
 
-def fetch_map_size(map_file_name) -> tuple:
-    fmap = open(map_file_name, 'r')
-    size = fmap.readline().split()
-    fmap.close()
-    return int(size[0]), int(size[1])
-
-
-def generate_maps(rover_id, rows):
-    with open(f'map_{rover_id}.txt', 'w') as f, open('map.txt', 'r') as m:
-        for i in range(rows + 1):
-            f.write(m.readline())

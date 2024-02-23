@@ -1,50 +1,16 @@
 from hashlib import sha256
 import random
 from map import mine_check
-from threading import Thread, Event, current_thread, Lock
 
+def disarm_mine(serialNum: str) -> int:    
+    pin = 0
+    while True:
+        temp_mine_key = str(pin) + serialNum
+        hashed_data = sha256(temp_mine_key.encode()).hexdigest()
+        if hashed_data[0:6] == '000000':
+            return pin
 
-dig_lock = Lock()  # Create a lock for synchronization
-
-def disarm_mine(row: int, col: int, mine_list: list):
-    print(f' attempting to disarm mine at ({row - 1}, {int(col/2)})')
-    stop_event = Event()
-
-    def run_disarm():
-        for mine_info in mine_list:
-            if stop_event.is_set():
-                return
-
-            mine_info = mine_info.split()
-            if row == int(mine_info[0]) and col == int(mine_info[1]):
-                solved = False
-                i = 0
-                while not solved:
-                    serial_num = str(mine_info[2] + f'{i}')
-                    hashed_data = sha256(serial_num.encode()).hexdigest()
-                    if hashed_data[0:6] == '000000':
-                        solved = True
-                        with dig_lock:  # Acquire the lock
-                            print(f'Disarmed mine at ({row - 1}, {int(col/2)}) \nHash: {hashed_data}\nSerial Num: {serial_num}'
-                                  f', Pin: {i}, Temp Mine Key: {i}{serial_num}')
-                            print(f'Thread info: {current_thread().name}')
-                            stop_event.set()  # Set stop_event here
-                        return
-
-                    i += 1
-
-    threads = []
-    for _ in range(3):
-        t = Thread(target=run_disarm)
-        threads.append(t)
-        t.start()
-
-    stop_event.wait()  # Wait for any thread to set the stop_event
-
-    for t in threads:
-        t.join()
-    
-    
+        pin += 1
 
 
 def get_mines_location(row, col):
@@ -52,11 +18,7 @@ def get_mines_location(row, col):
     for i in range(row):
         for j in range(col):
             if mine_check(i + 1, j * 2):
-                # print(j * 2)
                 location_list.append((i + 1, j * 2))
-            # if f.read(1) == "1":
-            #     location_list.append((i, j))
-
     return location_list
 
 

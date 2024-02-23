@@ -7,7 +7,6 @@ import proto_file_pb2 as proto__file__pb2
 
 class MyGreeterStub(object):
     """The greeting service definition.
-
     """
 
     def __init__(self, channel):
@@ -19,7 +18,7 @@ class MyGreeterStub(object):
         self.GetMap = channel.unary_unary(
                 '/MyGreeter/GetMap',
                 request_serializer=proto__file__pb2.Empty.SerializeToString,
-                response_deserializer=proto__file__pb2.Map.FromString,
+                response_deserializer=proto__file__pb2.MapInfo.FromString,
                 )
         self.GetCommands = channel.unary_unary(
                 '/MyGreeter/GetCommands',
@@ -31,21 +30,20 @@ class MyGreeterStub(object):
                 request_serializer=proto__file__pb2.MineLocation.SerializeToString,
                 response_deserializer=proto__file__pb2.SerialNum.FromString,
                 )
-        self.BotSuccees = channel.unary_unary(
-                '/MyGreeter/BotSuccees',
-                request_serializer=proto__file__pb2.Empty.SerializeToString,
-                response_deserializer=proto__file__pb2.BotStatus.FromString,
+        self.NotifyServer = channel.unary_unary(
+                '/MyGreeter/NotifyServer',
+                request_serializer=proto__file__pb2.BotMessage.SerializeToString,
+                response_deserializer=proto__file__pb2.Empty.FromString,
                 )
         self.MinePin = channel.unary_unary(
                 '/MyGreeter/MinePin',
-                request_serializer=proto__file__pb2.Pin.SerializeToString,
+                request_serializer=proto__file__pb2.RoverInfo.SerializeToString,
                 response_deserializer=proto__file__pb2.Empty.FromString,
                 )
 
 
 class MyGreeterServicer(object):
     """The greeting service definition.
-
     """
 
     def GetMap(self, request, context):
@@ -66,7 +64,7 @@ class MyGreeterServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def BotSuccees(self, request, context):
+    def NotifyServer(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -84,7 +82,7 @@ def add_MyGreeterServicer_to_server(servicer, server):
             'GetMap': grpc.unary_unary_rpc_method_handler(
                     servicer.GetMap,
                     request_deserializer=proto__file__pb2.Empty.FromString,
-                    response_serializer=proto__file__pb2.Map.SerializeToString,
+                    response_serializer=proto__file__pb2.MapInfo.SerializeToString,
             ),
             'GetCommands': grpc.unary_unary_rpc_method_handler(
                     servicer.GetCommands,
@@ -96,14 +94,14 @@ def add_MyGreeterServicer_to_server(servicer, server):
                     request_deserializer=proto__file__pb2.MineLocation.FromString,
                     response_serializer=proto__file__pb2.SerialNum.SerializeToString,
             ),
-            'BotSuccees': grpc.unary_unary_rpc_method_handler(
-                    servicer.BotSuccees,
-                    request_deserializer=proto__file__pb2.Empty.FromString,
-                    response_serializer=proto__file__pb2.BotStatus.SerializeToString,
+            'NotifyServer': grpc.unary_unary_rpc_method_handler(
+                    servicer.NotifyServer,
+                    request_deserializer=proto__file__pb2.BotMessage.FromString,
+                    response_serializer=proto__file__pb2.Empty.SerializeToString,
             ),
             'MinePin': grpc.unary_unary_rpc_method_handler(
                     servicer.MinePin,
-                    request_deserializer=proto__file__pb2.Pin.FromString,
+                    request_deserializer=proto__file__pb2.RoverInfo.FromString,
                     response_serializer=proto__file__pb2.Empty.SerializeToString,
             ),
     }
@@ -115,7 +113,6 @@ def add_MyGreeterServicer_to_server(servicer, server):
  # This class is part of an EXPERIMENTAL API.
 class MyGreeter(object):
     """The greeting service definition.
-
     """
 
     @staticmethod
@@ -131,7 +128,7 @@ class MyGreeter(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/MyGreeter/GetMap',
             proto__file__pb2.Empty.SerializeToString,
-            proto__file__pb2.Map.FromString,
+            proto__file__pb2.MapInfo.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -170,7 +167,7 @@ class MyGreeter(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def BotSuccees(request,
+    def NotifyServer(request,
             target,
             options=(),
             channel_credentials=None,
@@ -180,9 +177,9 @@ class MyGreeter(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/MyGreeter/BotSuccees',
-            proto__file__pb2.Empty.SerializeToString,
-            proto__file__pb2.BotStatus.FromString,
+        return grpc.experimental.unary_unary(request, target, '/MyGreeter/NotifyServer',
+            proto__file__pb2.BotMessage.SerializeToString,
+            proto__file__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
@@ -198,7 +195,7 @@ class MyGreeter(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/MyGreeter/MinePin',
-            proto__file__pb2.Pin.SerializeToString,
+            proto__file__pb2.RoverInfo.SerializeToString,
             proto__file__pb2.Empty.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

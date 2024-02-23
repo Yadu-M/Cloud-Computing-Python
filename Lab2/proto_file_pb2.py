@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto_file.proto\"\x07\n\x05\x45mpty\"0\n\x03Map\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\x12\x0f\n\x07\x63ontent\x18\x03 \x01(\x0c\"\x15\n\x07RoverID\x12\n\n\x02id\x18\x01 \x01(\t\"\x1c\n\x08\x43ommands\x12\x10\n\x08\x63ommands\x18\x01 \x01(\t\"(\n\x0cMineLocation\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\"\x1e\n\tSerialNum\x12\x11\n\tserialNum\x18\x01 \x01(\t\"\x1b\n\tBotStatus\x12\x0e\n\x06status\x18\x01 \x01(\x08\"\x16\n\x03Pin\x12\x0f\n\x07pin_num\x18\x01 \x01(\t2\xbb\x01\n\tMyGreeter\x12\x18\n\x06GetMap\x12\x06.Empty\x1a\x04.Map\"\x00\x12$\n\x0bGetCommands\x12\x08.RoverID\x1a\t.Commands\"\x00\x12/\n\x10GetMineSerialNum\x12\r.MineLocation\x1a\n.SerialNum\"\x00\x12\"\n\nBotSuccees\x12\x06.Empty\x1a\n.BotStatus\"\x00\x12\x19\n\x07MinePin\x12\x04.Pin\x1a\x06.Empty\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x10proto_file.proto\"\x07\n\x05\x45mpty\"[\n\x07MapInfo\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\x12\x1d\n\x07map_row\x18\x03 \x03(\x0b\x32\x0c.MapInfo.Row\x1a\x17\n\x03Row\x12\x10\n\x08mine_val\x18\x01 \x03(\x05\"\x15\n\x07RoverID\x12\n\n\x02id\x18\x01 \x01(\t\"\x1c\n\x08\x43ommands\x12\x10\n\x08\x63ommands\x18\x01 \x01(\t\"(\n\x0cMineLocation\x12\x0b\n\x03row\x18\x01 \x01(\x05\x12\x0b\n\x03\x63ol\x18\x02 \x01(\x05\"\x1e\n\tSerialNum\x12\x11\n\tserialNum\x18\x01 \x01(\t\"\x1b\n\tBotStatus\x12\x0e\n\x06status\x18\x01 \x01(\x08\"H\n\tRoverInfo\x12\x0f\n\x07pin_num\x18\x01 \x01(\t\x12\x10\n\x08rover_id\x18\x02 \x01(\t\x12\x0b\n\x03row\x18\x03 \x01(\t\x12\x0b\n\x03\x63ol\x18\x04 \x01(\t\"\x1e\n\nBotMessage\x12\x10\n\x08_message\x18\x01 \x01(\t2\xc8\x01\n\tMyGreeter\x12\x1c\n\x06GetMap\x12\x06.Empty\x1a\x08.MapInfo\"\x00\x12$\n\x0bGetCommands\x12\x08.RoverID\x1a\t.Commands\"\x00\x12/\n\x10GetMineSerialNum\x12\r.MineLocation\x1a\n.SerialNum\"\x00\x12%\n\x0cNotifyServer\x12\x0b.BotMessage\x1a\x06.Empty\"\x00\x12\x1f\n\x07MinePin\x12\n.RoverInfo\x1a\x06.Empty\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -23,20 +23,24 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
   _globals['_EMPTY']._serialized_start=20
   _globals['_EMPTY']._serialized_end=27
-  _globals['_MAP']._serialized_start=29
-  _globals['_MAP']._serialized_end=77
-  _globals['_ROVERID']._serialized_start=79
-  _globals['_ROVERID']._serialized_end=100
-  _globals['_COMMANDS']._serialized_start=102
-  _globals['_COMMANDS']._serialized_end=130
-  _globals['_MINELOCATION']._serialized_start=132
-  _globals['_MINELOCATION']._serialized_end=172
-  _globals['_SERIALNUM']._serialized_start=174
-  _globals['_SERIALNUM']._serialized_end=204
-  _globals['_BOTSTATUS']._serialized_start=206
-  _globals['_BOTSTATUS']._serialized_end=233
-  _globals['_PIN']._serialized_start=235
-  _globals['_PIN']._serialized_end=257
-  _globals['_MYGREETER']._serialized_start=260
-  _globals['_MYGREETER']._serialized_end=447
+  _globals['_MAPINFO']._serialized_start=29
+  _globals['_MAPINFO']._serialized_end=120
+  _globals['_MAPINFO_ROW']._serialized_start=97
+  _globals['_MAPINFO_ROW']._serialized_end=120
+  _globals['_ROVERID']._serialized_start=122
+  _globals['_ROVERID']._serialized_end=143
+  _globals['_COMMANDS']._serialized_start=145
+  _globals['_COMMANDS']._serialized_end=173
+  _globals['_MINELOCATION']._serialized_start=175
+  _globals['_MINELOCATION']._serialized_end=215
+  _globals['_SERIALNUM']._serialized_start=217
+  _globals['_SERIALNUM']._serialized_end=247
+  _globals['_BOTSTATUS']._serialized_start=249
+  _globals['_BOTSTATUS']._serialized_end=276
+  _globals['_ROVERINFO']._serialized_start=278
+  _globals['_ROVERINFO']._serialized_end=350
+  _globals['_BOTMESSAGE']._serialized_start=352
+  _globals['_BOTMESSAGE']._serialized_end=382
+  _globals['_MYGREETER']._serialized_start=385
+  _globals['_MYGREETER']._serialized_end=585
 # @@protoc_insertion_point(module_scope)
