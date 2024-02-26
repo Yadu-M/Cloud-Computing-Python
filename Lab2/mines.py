@@ -31,7 +31,7 @@ def generate_mines_txt(row, col):
     for row, col in mine_list:
         serial_num = serial_num_list.pop()
         f.write(f'{row - 1} {int(col/2)} {serial_num}\n')
-        mine_info_list.append(f'{row} {col} {serial_num}')
+        mine_info_list.append(f'{row - 1} {int(col/2)} {serial_num}')
 
     f.close()
 

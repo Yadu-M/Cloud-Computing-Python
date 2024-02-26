@@ -19,10 +19,6 @@ def run():
         MAP_ROW_SIZE = response.row
         MAP_COL_SIZE = response.col
         
-        # for row in grid:
-        #     for val in row.mine_val:
-        #         print(val, end=" ")
-        #     print()
             
         
         # Getting rover id from user        
@@ -44,7 +40,7 @@ def run():
         
         
         # Executing map traversal
-        # generate_rover_path(int (rover_id), rover_commands, row_size, col_size)
+        
         dig = False
         curr_row = 1
         curr_col = 0
@@ -78,9 +74,9 @@ def run():
                         curr_col += 2
                         update = True
 
-                if update:
+                if update:  # Updating map states after move update
                     if not dig and mine_check(row_before, col_before, rover_id):                        
-                        request = proto_file_pb2.BotMessage(_message=f'Rover {rover_id} exploded at row: {row_before - 1} col: {int(col_before/2)}')
+                        request = proto_file_pb2.BotMessage(_message=f'Rover {rover_id} exploded at row: {row_before - 1} col: {int(col_before/2)}')  # Sending bot status to server
                         response = stub.NotifyServer(request)                        
                         fail = True
                         break
@@ -89,11 +85,11 @@ def run():
 
             elif move == 'D':
                 dig = True
-                if mine_check(curr_row, curr_col, rover_id, disable=False):                    
-                    request = proto_file_pb2.MineLocation(row=(curr_row - 1), col=(curr_col + 1))
-                    response = stub.GetMineSerialNum(request)
+                if mine_check(curr_row, curr_col, rover_id, disable=False):  # Checking for active mine in current location
+                    request = proto_file_pb2.MineLocation(row=(curr_row - 1), col=(int (curr_col / 2)))
+                    response = stub.GetMineSerialNum(request)  # Retriving Serial Number from server
                     
-                    pin = disarm_mine(response.serialNum)
+                    pin = disarm_mine(response.serialNum)  # Disarming mine with recieved Serial Number
                     
                     request = proto_file_pb2.RoverInfo(
                         pin_num=str(pin),
@@ -101,10 +97,10 @@ def run():
                         row=str(curr_row - 1),
                         col=str(int(curr_col/2))
                     )        
-                    response = stub.MinePin(request)                    
-                    mine_check(curr_row, curr_col, rover_id, disable=True)
+                    response = stub.MinePin(request)  # Sending mine deactivation info back to server
+                    mine_check(curr_row, curr_col, rover_id, disable=True)  # Marking map with diabled mine (check rover_*.txt)
         
-        if not fail:  # Send success notification to
+        if not fail:  # Send success notification to server
             request = proto_file_pb2.BotMessage(_message=f'Rover {rover_id} has successfully completed all commands.')
             response = stub.NotifyServer(request)   
                     

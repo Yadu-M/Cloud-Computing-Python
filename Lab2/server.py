@@ -4,20 +4,18 @@ import proto_file_pb2_grpc
 from concurrent import futures
 import logging
 from lab1_main import get_rover_commands
-from map import generate_map_grid, create_maps
+from map import generate_map_grid, generate_text_map
 from mines import generate_mines_txt
 
 class MyGreeter(proto_file_pb2_grpc.MyGreeterServicer):
     
     def GetMap(self, request, context):      
         grid = generate_map_grid()
-        create_maps(grid)   
+        # generate_text_map(grid)   
         map_info = proto_file_pb2.MapInfo()
         
         row_size = len(grid)
-        col_size = len(grid[0])
-        
-        
+        col_size = len(grid[0])               
         
         map_info.row = row_size
         map_info.col = col_size
@@ -37,10 +35,10 @@ class MyGreeter(proto_file_pb2_grpc.MyGreeterServicer):
     def GetMineSerialNum(self, request, context):
         for mine_info in self.mine_info_list:
             info = mine_info.split(' ')
-            if (((int(info[0]) - 1) == request.row) and ((int(info[1]) - 1) == request.col)):
+            
+            if ((int(info[0]) == request.row) and (int(info[1]) == request.col)):
                 return proto_file_pb2.SerialNum(serialNum=info[2])
 
-        return proto_file_pb2.SerialNum(serialNum="wtf")
 
     def NotifyServer(self, request, context):
         print(request._message)

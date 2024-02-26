@@ -1,59 +1,78 @@
 import random
+from io import TextIOWrapper
 
 def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:
     
     if noChange:
-        # return [
-        #     [1, 1, 1, 0, 1], 
-        #     [1, 1, 1, 0, 1], 
-        #     [0, 1, 1, 1, 1], 
-        #     [0, 1, 1, 0, 0], 
-        #     [1, 1, 0, 1, 0] 
-        # ]
-        return [
-            [0, 1, 0],
-            [0, 0, 1],
-            [1, 1, 1]
-        ]
-    
-    if row == None:
-        row = random.randint(3, 10)
-    if col == None:
-        col = random.randint(3, 10)
-
-
-    grid = []
-    
-    for i in range(row):
-        curr_row = []
-        for _ in range(col):            
-            if random.randint(1, 10) < 3:
-                curr_row.append(1)
+        try:
+            f = open('map.txt', 'r')
+            if ((f == None) or (len(f.readline()) == 0)):
+                raise Exception
             else:
-                curr_row.append(0)
-        grid.append(curr_row)
+                return fetch_map_info()
+            
+        
+        except:              
     
-    
-    return grid
-    
+            if row == None:
+                row = random.randint(3, 10)
+            if col == None:
+                col = random.randint(3, 10)
 
-def create_maps(grid: list[list[int]]):
+
+            grid = []
+            
+            for i in range(row):
+                curr_row = []
+                for _ in range(col):            
+                    if random.randint(1, 10) < 3:
+                        curr_row.append(1)
+                    else:
+                        curr_row.append(0)
+                grid.append(curr_row)
+            
+            
+            generate_text_map(grid)
+    
+    else:
+        if row == None:
+                row = random.randint(3, 10)
+        if col == None:
+            col = random.randint(3, 10)
+
+
+        grid = []
+        
+        for i in range(row):
+            curr_row = []
+            for _ in range(col):            
+                if random.randint(1, 10) < 3:
+                    curr_row.append(1)
+                else:
+                    curr_row.append(0)
+            grid.append(curr_row)
+        
+        
+        generate_text_map(grid)
+        return fetch_map_info()
+
+def generate_text_map(grid: list[list[int]]):
     
     with open(f'map.txt', 'w') as f:
-            f.write(f'{len(grid)} {len(grid[0])}\n')
-            i = 0
+        f.write(f'{len(grid)} {len(grid[0])}\n')
+        i = 0
+        j = 0
+        for row in grid:
+            i += 1
+            for col in row:
+                f.write(str (col))
+                j += 1
+                if (j < len(row)):
+                    f.write(' ')
+            if (i == len(grid)):
+                break
+            f.write('\n')
             j = 0
-            for row in grid:
-                i += 1
-                for col in row:
-                    f.write(str (col))
-                    j += 1
-                    if (j < len(row)):
-                        f.write(' ')
-                if (i == len(grid)):
-                    break
-                f.write('\n')
-                j = 0
                 
     for i in range(1, 11):        
         with open(f'map_{i}.txt', 'w') as f:
@@ -139,4 +158,24 @@ def create_rover_path(rover_id, rows, cols):
             if i < (rows - 1):  # This removes extra line in the map
                 f.write('\n')
 
+def fetch_map_info() -> list[list[int]]:
+    
+    with open('map.txt', 'r') as f:
+        x = f.readline()
+        grid = []
+        row = []
+        while(len(x) != 0):
+            if (x == '\n'):
+                grid.append(row)
+                row = []
+            elif (x == '0'):  
+                row.append(0)            
+            elif (x == '1'):
+                row.append(1)
+            x = f.read(1)
+        grid.append(row)
+    print(grid)
+    return grid
 
+
+# generate_map_grid()
