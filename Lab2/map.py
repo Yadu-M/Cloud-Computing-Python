@@ -1,7 +1,6 @@
 import random
 
-def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:
-    
+def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:    
     if noChange:
         try:
             f = open('map.txt', 'r')
@@ -174,4 +173,3 @@ def fetch_map_info() -> list[list[int]]:
             x = f.read(1)
         grid.append(row)
     return grid
-

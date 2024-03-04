@@ -4,13 +4,14 @@ import proto_file_pb2_grpc
 from concurrent import futures
 import logging
 from lab1_main import get_rover_commands
-from map import generate_map_grid
+from map import generate_map_grid, generate_text_map
 from mines import generate_mines_txt
 
 class MyGreeter(proto_file_pb2_grpc.MyGreeterServicer):
     
     def GetMap(self, request, context):      
         grid = generate_map_grid() 
+        generate_text_map(grid)
         map_info = proto_file_pb2.MapInfo()
         
         row_size = len(grid)
