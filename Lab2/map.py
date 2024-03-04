@@ -1,5 +1,4 @@
 import random
-from io import TextIOWrapper
 
 def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:
     
@@ -54,7 +53,7 @@ def generate_map_grid(row=None, col=None, noChange=True) -> list[list[int]]:
         
         
         generate_text_map(grid)
-        return fetch_map_info()
+    return fetch_map_info()
 
 def generate_text_map(grid: list[list[int]]):
     
@@ -174,8 +173,5 @@ def fetch_map_info() -> list[list[int]]:
                 row.append(1)
             x = f.read(1)
         grid.append(row)
-    print(grid)
     return grid
 
-
-# generate_map_grid()
