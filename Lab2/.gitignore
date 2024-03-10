@@ -1,2 +1,5 @@
 env/*
 *.txt
+
+# Keeping requirements
+!requirements.txt
