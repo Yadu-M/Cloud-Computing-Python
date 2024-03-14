@@ -35,15 +35,17 @@ def main():
         commands.append(get_rover_commands(rover_id))
         generate_maps(rover_id, MAP_ROW_SIZE)
 
-    time1 = single_thread()
+    generate_rover_paths()
+    
+    # time1 = single_thread()
 
-    for rover_id in range(1, 11):
-        create_rover_path(rover_id, MAP_ROW_SIZE, MAP_COL_SIZE)
-        commands.append(get_rover_commands(rover_id))
-        generate_maps(rover_id, MAP_ROW_SIZE)
+    # for rover_id in range(1, 11):
+    #     create_rover_path(rover_id, MAP_ROW_SIZE, MAP_COL_SIZE)
+    #     commands.append(get_rover_commands(rover_id))
+    #     generate_maps(rover_id, MAP_ROW_SIZE)
 
-    time2 = multi_thread()
-    print(f'The difference is {round((time1 - time2), 3)} second(s)')
+    # time2 = multi_thread()
+    # print(f'The difference is {round((time1 - time2), 3)} second(s)')
 
 
 def single_thread():
@@ -88,6 +90,7 @@ def generate_rover_path(rover_id):
     curr_col = 0
     direction_v = "SOUTH"
     update_rover_path(rover_id + 1, curr_row, curr_col)  # Initializing path
+    total_time = 0
     for move in ROVER_COMMANDS[rover_id]:
         if move == 'L' or move == 'R':
             direction_v = update_direction(direction_v, move)
@@ -125,9 +128,15 @@ def generate_rover_path(rover_id):
         elif move == 'D':
             dig = True
             if mine_check(curr_row, curr_col, rover_id + 1, disable=False):
-                print(f'\nRover {rover_id + 1}', end="")
+                print(f'Rover {rover_id + 1}', end="")
+                start_time = perf_counter()    
                 disarm_mine(curr_row, curr_col, MINES_LIST)
+                end_time = perf_counter()
+                print(f'Finished disarming the mine in {round((end_time - start_time), 1)} seconds.\n')
+                total_time += (end_time - start_time)
                 mine_check(curr_row, curr_col, rover_id + 1, disable=True)
+    
+    print(f'Total time took: {total_time} seconds.')
 
 
 def get_rover_commands(rover_id):
@@ -145,7 +154,7 @@ def get_rover_commands(rover_id):
         raise Exception("Failed to fetch api")
 
 
-def update_direction(curr_direction, move) -> "":
+def update_direction(curr_direction, move) -> str:
 
     if curr_direction == "NORTH":
         if move == "L":

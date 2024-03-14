@@ -93,7 +93,7 @@ def create_rover_path(rover_id, rows, cols):
                 f.write('\n')
 
 
-def fetch_map_size(map_file_name) -> ():
+def fetch_map_size(map_file_name) -> tuple:
     fmap = open(map_file_name, 'r')
     size = fmap.readline().split()
     fmap.close()
