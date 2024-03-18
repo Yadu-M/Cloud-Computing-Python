@@ -5,7 +5,6 @@ service MyGreeter {
     rpc GetMap (Empty) returns (MapInfo) {}
     rpc GetCommand (RoverID) returns (Commands) {}
     rpc GetMineSerialNum (MineLocation) returns (SerialNum) {}
-    rpc Defused-Mines (BotMessage) returns (Empty) {}
 }
 
 message Empty {}
@@ -16,7 +15,7 @@ message MapInfo {
     message Row {
         repeated int32 mine_val = 1;
     }
-    repeated Row map_row = 3;
+    repeated Row map = 3;
 }
 
 message RoverID {
@@ -33,7 +32,7 @@ message MineLocation {
 }
 
 message SerialNum {
-    string serialNum = 1;
+    int32 serialNum = 1;
 }
 
 message BotMessage {
