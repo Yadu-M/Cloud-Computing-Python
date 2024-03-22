@@ -1,6 +1,5 @@
 import utils, proto_file_pb2, proto_file_pb2_grpc, grpc, logging, pika
 
-
 # Establishing connection with RabbitMQ server
 
 connectionMQ = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
@@ -93,17 +92,7 @@ def main():
                             )
                             
                         )
-                        print(f'Sent mine info to deminer\nBody: "{messageToSend}"')
-                        # print('Waiting for mine defuse...')
-                        
-                        # def ack_handler(ch, method, properties, body):
-                        #     print('Mine has been defused')
-                        #     grid[currRow][currCol] = 0
-                        #     channelMQ.stop_consuming()
-                            
-                        # channelMQ.basic_consume(queue='Demine-Queue', on_message_callback=ack_handler, auto_ack=True)
-                        # channelMQ.start_consuming()
-                        
+                        print(f'Sent mine info to deminer\nBody: "{messageToSend}"')                        
                 
     channelMQ.close()
 
