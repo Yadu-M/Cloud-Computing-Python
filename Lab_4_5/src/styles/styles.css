@@ -1,0 +1,32 @@
+.map-container {
+    margin-top: 3rem;
+    border: 2px solid green;
+    display: flex;
+    justify-content: center;
+}
+
+
+/* Define styles for cells */
+.cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.mine {
+    background-color: red;
+}
+
+/* Style for rows */
+.row {
+    display: flex;
+}
+
+/* Set margin to create gaps between cells */
+.row > .cell {
+    margin: 2px;
+}
+
