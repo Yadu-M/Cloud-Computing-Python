@@ -20,6 +20,7 @@
     "webpack-dev-server": "^5.0.4"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "lodash": "^4.17.21"
   }
 }

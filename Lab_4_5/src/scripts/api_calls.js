@@ -1,4 +1,4 @@
-const base_url = 'http://127.0.0.1:8000'
+const base_url = 'https://coe892lab42024g.azurewebsites.net'
 
 export const get_map = async () => {
 
@@ -13,7 +13,7 @@ export const get_map = async () => {
         return await response.json();
 
     } catch (error) {
-        throw new Error("Something went wrong while fetching map data");
+        alert(error);
     }
 }
 
@@ -24,22 +24,61 @@ export const get_commands = async (rover_id) => {
         return await response.json();
 
     } catch (error) {
-        throw new Error("Something went wrong while fetching commands");
+        alert(error);
     }
 }
 
-export const create_rover = async () => {
+export const create_rover = async (commands) => {
     try {
-        const response = await fetch(`${base_url}/rovers`, {
-            method: "GET",
+        const response = await fetch(`${base_url}/rovers?incoming_command=${commands}`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: {
-
             }
         });
+
+        return await response.json();
+
     } catch (error) {
-        
+        alert(error);
+    }
+}
+
+
+export const delete_rover = async (id) => {
+    try {
+        const response = await fetch(`${base_url}/rovers/${id}`, {
+            method: "DELETE",
+        });
+
+        return await response.json();
+    } catch (error) {
+        alert(error);
+    }
+}
+
+
+export const get_mines = async () => {
+    try {
+        const response = await fetch(`${base_url}/mines`, {
+            method: "GET",
+        });
+
+        return await response.json();
+    } catch (error) {
+        alert(error);
+    }
+}
+
+
+export const disarm_mine = async (id) => {
+    try {
+        const response = await fetch(`${base_url}/mines/${id}`, {
+            method: "GET",
+        });
+
+        return await response.json();
+    } catch (error) {
+        alert(error);
     }
 }
