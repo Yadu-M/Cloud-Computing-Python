@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lab 4 & 5</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Lab 4-5: FastAPI and Containers</h1>
     <form action="" method="get" id="commandForm">
-        <label for="commands">Enter id to generate commands (1-10): </label>
-        <!-- Set min and max attributes for validation -->
-        <input type="number" id="input-commands" name="commands" min="1" max="10" required />
-        <button type="submit">Submit</button>
+      <label for="commands">Enter id to generate commands (1-10): </label>
+      <!-- Set min and max attributes for validation -->
+      <input
+        type="number"
+        id="input-commands"
+        name="commands"
+        min="1"
+        max="10"
+        required
+      />
+      <button type="submit">Submit</button>
     </form>
     <div class="start">
-        <H2>Start exploration: </H2>
-        <button id="start">Start</button>
+      <h2>Start exploration:</h2>
+      <button id="start">Start</button>
     </div>
     <div class="map-container">
-        <div class="legend">
-            <h4>Note: </h4> 
-            <h6>The numbers in the cell represent the order of the path taken. <br>
-                Ex: If a cell contains for example "0,2,6", <br> the bot was occupying the cell on its first, third and 7th move.
-            </h6> 
-            <h4 style="margin-top: 1rem">Legend</h4>
-            <div style="width: 6rem" class="cell">Cell</div>
-            <div style="width: 6rem" class="cell mine">Mine</div>
-            <div style="background-color: orange; width: 6rem;" class="cell">Disarmed Mine</div>
+      <div class="legend">
+        <h4>Note:</h4>
+        <h6>
+          The numbers in the cell represent the order of the path taken. <br />
+          Ex: If a cell contains for example "0,2,6", <br />
+          the bot was occupying the cell on its first, third and 7th move.
+        </h6>
+        <h4 style="margin-top: 1rem">Legend</h4>
+        <div style="width: 6rem" class="cell">Cell</div>
+        <div style="width: 6rem" class="cell mine">Mine</div>
+        <div style="background-color: orange; width: 6rem" class="cell">
+          Disarmed Mine
         </div>
-        <h4 id="rover">Rover Id: </h4>
-        <div id="map" class="map"></div>
-        <div id="info">
-        </div>
+      </div>
+      <h4 id="rover">Rover Id:</h4>
+      <div id="map" class="map"></div>
+      <div id="info"></div>
     </div>
-
-</body>
+  </body>
 </html>

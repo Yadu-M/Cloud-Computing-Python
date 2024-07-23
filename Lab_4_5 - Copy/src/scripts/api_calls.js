@@ -1,4 +1,4 @@
-const base_url = 'https://coe892lab42024g.azurewebsites.net'
+const base_url = 'http://127.0.0.1:8000'
 
 export const get_map = async () => {
 
